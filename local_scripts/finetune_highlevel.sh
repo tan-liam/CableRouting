@@ -2,9 +2,12 @@
 
 EXP_NAME='{INSERT NAME HERE}'
 OUTPUT_DIR='{INSERT PATH HERE}'
-export XLA_PYTHON_CLIENT_PREALLOCATE=false 
-
-source {INSERT PATH TO project_setup.bash}
+export PROJECT_HOME="$(pwd)"
+export CONDA_OVERRIDE_CUDA="11.3"
+export XLA_PYTHON_CLIENT_PREALLOCATE='false'
+export PYTHONPATH="$PYTHONPATH:$PROJECT_HOME/CableRouting"
+export WANDB_API_KEY='{INSERT WANDB_API_KEY}'
+conda activate cable
 
 for WEIGHT_DECAY in 1e-2
 do

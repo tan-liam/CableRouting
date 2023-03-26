@@ -1,5 +1,4 @@
 import pprint
-import re
 
 import absl.app
 import absl.flags
@@ -25,7 +24,6 @@ from .data import (
 from .jax_utils import (
     JaxRNG,
     next_rng,
-    named_tree_map,
     next_rng,
 )
 
@@ -130,7 +128,6 @@ def main(argv):
     rng = next_rng()
 
     def forward_pretrained_policy(rng, robot_state, images):
-        # jax.debug.print('Robot state: {r}', r=robot_state)
         rng_generator = JaxRNG(rng)
         features, _, _ = pretrain_features_policy.apply(
             pretrain_features_policy_params,

@@ -124,8 +124,6 @@ class ResNet(nn.Module):
                     norm=norm,
                     act=self.act,
                 )(x)
-        # x = jnp.mean(x, axis=(1, 2))
-        # x = nn.Dense(self.num_classes, dtype=self.dtype)(x)
         x = jnp.asarray(x, self.dtype)
         return x
 
@@ -375,6 +373,6 @@ class PrimitiveSelectionPolicy(nn.Module):
         primitives_embeddings = nn.Dense(256)(primitives_embeddings)
         primitives_embeddings = nn.relu(primitives_embeddings)
         embedding = jnp.concatenate([features, primitives_embeddings], axis=-1)
-        logits = nn.Dense(self.total_num_primitives)(embedding)
-
+        layer1 = nn.Dense(256)(embedding)
+        logits = nn.Dense(self.total_num_primitives)(layer1)
         return logits
