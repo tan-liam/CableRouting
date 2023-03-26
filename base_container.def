@@ -1,0 +1,67 @@
+Bootstrap:library
+From: young-geng/ml/ubuntu_18.04:latest
+
+%files
+    ./environment.yml /contained/setup/environment.yml
+
+%post -c /bin/bash
+    export CONDA_OVERRIDE_CUDA="11.3"
+    export MUJOCO_PY_MJKEY_PATH='/contained/software/mujoco/mjkey.txt'
+    export MUJOCO_PY_MUJOCO_PATH='/contained/software/mujoco/mujoco210'
+    export MJKEY_PATH='/contained/software/mujoco/mjkey.txt'
+    export MJLIB_PATH='/contained/software/mujoco/mujoco210/bin/libmujoco210.so'
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/contained/software/mujoco/mujoco210/bin"
+    export WANDB_API_KEY='{INSERT WANDB_API_KEY}'
+    export D4RL_SUPPRESS_IMPORT_ERROR=1
+    export XLA_PYTHON_CLIENT_PREALLOCATE='false'
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/contained/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/contained/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/contained/anaconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/contained/anaconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+
+    cp -r /contained/software/mujoco /root/.mujoco
+    conda env create -f /contained/setup/environment.yml
+
+    conda clean --all
+    conda activate $(cat /contained/setup/environment.yml | egrep "name: .+$" | sed -e 's/^name:[ \t]*//')
+
+    chmod -R 777 /contained
+
+%environment
+    export CONDA_OVERRIDE_CUDA="11.3"
+    export MUJOCO_PY_MJKEY_PATH='/contained/software/mujoco/mjkey.txt'
+    export MUJOCO_PY_MUJOCO_PATH='/contained/software/mujoco/mujoco210'
+    export MJKEY_PATH='/contained/software/mujoco/mjkey.txt'
+    export MJLIB_PATH='/contained/software/mujoco/mujoco210/bin/libmujoco210.so'
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/contained/software/mujoco/mujoco210/bin"
+    export WANDB_API_KEY='{INSERT WANDB_API_KEY}'
+    export D4RL_SUPPRESS_IMPORT_ERROR=1
+    export XLA_PYTHON_CLIENT_PREALLOCATE='false'
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/contained/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/contained/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/contained/anaconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/contained/anaconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+
+    conda activate $(cat /contained/setup/environment.yml | egrep "name: .+$" | sed -e 's/^name:[ \t]*//')

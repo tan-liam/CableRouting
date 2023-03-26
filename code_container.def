@@ -1,0 +1,26 @@
+Bootstrap: localimage
+From: ./containers/base_img.sif
+
+%files
+    ./CableRouting /contained/project/CableRouting
+
+
+%environment
+    source /contained/anaconda3/etc/profile.d/conda.sh
+    conda activate $(cat /contained/setup/environment.yml | egrep "name: .+$" | sed -e 's/^name:[ \t]*//')
+    export CONDA_OVERRIDE_CUDA="11.3"
+    export MUJOCO_PY_MJKEY_PATH='/contained/software/mujoco/mjkey.txt'
+    export MUJOCO_PY_MUJOCO_PATH='/contained/software/mujoco/mujoco210'
+    export MJKEY_PATH='/contained/software/mujoco/mjkey.txt'
+    export MJLIB_PATH='/contained/software/mujoco/mujoco210/bin/libmujoco210.so'
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/contained/software/mujoco/mujoco210/bin"
+    export WANDB_API_KEY='{INSERT WANDB_API_KEY}'
+    export D4RL_SUPPRESS_IMPORT_ERROR=1
+    export XLA_PYTHON_CLIENT_PREALLOCATE='false'
+
+    export PYTHONPATH="$PYTHONPATH:/contained/project/CableRouting"
+
+
+%runscript
+    #! /bin/bash
+    python -m "$@"
