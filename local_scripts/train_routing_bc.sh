@@ -15,7 +15,7 @@ do
     do
         python -m CableRouting.bc_main \
                     --seed=24 \
-                    --dataset_path="{INSERT PATH HERE}" \
+                    --dataset_path="./route_test.npy" \
                     --dataset_image_keys='wrist45_image:wrist225_image' \
                     --image_augmentation=${IMAGE_AUG} \
                     --total_steps=20000 \

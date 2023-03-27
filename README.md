@@ -62,6 +62,6 @@ Then you can run experiments with W&B logging turned on from any of the .sh scri
 
 The file "route_test.npy" is included.
 
-Use this as data for the "train_routing_bc.sh" to check that the model works as intended.
+Use this as data for the "train_routing_bc.sh" to check that the model works as intended. We have included this for you in "train_routing_bc.sh" already.
 
 At 500 steps the MSE should be approximately 0.426 and the eval_mse should be approximately 0.609.
