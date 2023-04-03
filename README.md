@@ -8,7 +8,7 @@ Find the routing data at https://sites.google.com/view/cablerouting/home#h.wix78
 #### Setting up the directory structure
 ```shell
 mkdir cable && cd cable
-git clone git@github.com:tan-liam/CableRouting.git
+git clone git@github.com:doe-john123/CableRouting.git
 ```
 
 After doing this, you will have the following directory structure:
