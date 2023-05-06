@@ -104,20 +104,15 @@ def main(argv):
     dataset = concatenate_batches(dataset)
     dataset = preprocess_robot_dataset(dataset, FLAGS.clip_action)
     train_dataset, test_dataset = partition_batch_train_test(dataset, FLAGS.train_ratio)
-
-    pretrain_features_policy_config = (
-        PretrainTanhGaussianResNetPolicy.get_default_config()
-    )
-    (
-        pretrain_features_policy_config,
-        pretrain_features_policy_params,
-    ) = load_policy_and_parms(
+    pretrain_features_policy_config = PretrainTanhGaussianResNetPolicy.get_default_config()
+    pretrain_features_policy_config, pretrain_features_policy_params = load_policy_and_parms(
         FLAGS.encoder_checkpoint_path,
         pretrain_features_policy_config,
         FLAGS.pretrained_model_key,
     )
     pretrain_features_policy = PretrainTanhGaussianResNetPolicy(
-        output_dim=4, config_updates=pretrain_features_policy_config
+        output_dim=4, 
+        config_updates=pretrain_features_policy_config
     )
     print("State: ", pretrain_features_policy_config.state_injection)
 

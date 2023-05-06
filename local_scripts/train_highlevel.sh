@@ -4,14 +4,13 @@ OUTPUT_DIR='{INSERT DIR HERE}'
 export PROJECT_HOME="$(pwd)"
 export CONDA_OVERRIDE_CUDA="11.3"
 export XLA_PYTHON_CLIENT_PREALLOCATE='false'
-export PYTHONPATH="$PYTHONPATH:$PROJECT_HOME/CableRouting"
+export PYTHONPATH="$PYTHONPATH:$PROJECT_HOME/src"
 export WANDB_API_KEY='{INSERT WANDB_API_KEY}'
-conda activate cable
 
-XLA_PYTHON_CLIENT_PREALLOCATE=false  python -m CableRouting.primitive_selection_main \
-            --seed=24 \
+python -m src.primitive_selection_main \
             --encoder_checkpoint_path="{INSERT PATH HERE}" \
             --dataset_path="{INSERT PATH HERE}"\
+            --seed=24 \
             --dataset_image_keys='wrist45_image:wrist225_image:side_image' \
             --image_augmentation='rand' \
             --total_steps=30000 \

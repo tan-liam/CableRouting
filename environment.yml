@@ -4,7 +4,7 @@ channels:
     - nvidia
     - conda-forge
 dependencies:
-    - python=3.10
+    - python=3.10.9
     - pip
     - numpy
     - scipy
@@ -16,27 +16,19 @@ dependencies:
     - Cython
     - protobuf=3.20.*
     - pytorch=1.12.1
-    - jax=0.3.16
-    - jaxlib=0.3.15=*cuda*
     - cudatoolkit=11.3
     - cuda-nvcc=11.3
+    - jax=0.3.16
+    - jaxlib=0.3.15=*cuda*
     - cudnn
     - faiss-gpu=1.7.2
+    - torchvision
+    - flax
     - pip:
-        - flax==0.6.0
-        - optax==0.1.3
-        - distrax==0.1.2
+        - cloudpickle
         - einops
         - dill
         - seaborn
         - absl-py
-        - gym
         - wandb==0.13.5
         - ml_collections
-        - jupyter_http_over_ws
-        - pypylon
-        - pyquaternion
-        - pyrealsense2
-        - torchvision
-        - opencv-python
-        - pytimedinput

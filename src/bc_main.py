@@ -14,6 +14,7 @@ from .data import (
     preprocess_robot_dataset,
     augment_batch,
     get_data_augmentation,
+    concatenate_batches,
 )
 from .jax_utils import JaxRNG, next_rng
 from .utils import (
@@ -29,6 +30,7 @@ from .train_utils import (
     weight_decay_mask_tanh,
     weight_decay_mask_pretrain_tanh,
 )
+from .model import ResNetPolicy, TanhGaussianResNetPolicy, PretrainTanhGaussianResNetPolicy
 
 from flax.training.train_state import TrainState
 from functools import partial
@@ -50,11 +52,8 @@ FLAGS_DEF = define_flags_with_default(
     eval_freq=200,
     eval_batches=20,
     save_model=False,
-    spatial_aggregate="average",
-    resnet_type="average",
-    state_injection="z_only",
-    share_resnet_between_views=False,
     policy_class_name="TanhGaussianResNetPolicy",
+    policy=TanhGaussianResNetPolicy.get_default_config(),
     logger=WandBLogger.get_default_config(),
 )
 
@@ -64,26 +63,28 @@ FLAGS = absl.flags.FLAGS
 def main(argv):
     assert FLAGS.dataset_path != ""
     policy_class = getattr(
-        importlib.import_module("CableRouting.model"), FLAGS.policy_class_name
+        importlib.import_module("src.model"), FLAGS.policy_class_name
     )
     variant = get_user_flags(FLAGS, FLAGS_DEF)
     wandb_logger = WandBLogger(config=FLAGS.logger, variant=variant)
     set_random_seed(FLAGS.seed)
 
     image_keys = FLAGS.dataset_image_keys.split(":")
-    dataset = np.load(FLAGS.dataset_path, allow_pickle=True).item()
+    dataset = np.load(FLAGS.dataset_path, allow_pickle=True)
+    if type(dataset) == np.ndarray and dataset.shape==():
+        dataset = dataset.item()
+    if type(dataset) == np.ndarray:
+        dataset = concatenate_batches(dataset)
+    elif type(dataset) == dict:
+        pass
+    else:
+        raise TypeError
     dataset = preprocess_robot_dataset(dataset, FLAGS.clip_action)
     train_dataset, test_dataset = partition_batch_train_test(dataset, FLAGS.train_ratio)
-    policy_config = policy_class.get_default_config()
     policy = policy_class(
         output_dim=dataset["action"].shape[-1],
-        config_updates=policy_config,
+        config_updates=FLAGS.policy,
     )
-    policy_config.spatial_aggregate = "average"
-    policy_config.resnet_type = "ResNet18"
-    policy_config.state_injection = "z_only"
-    policy_config.share_resnet_between_views = False
-
     params = policy.init(
         state=train_dataset["robot_state"][:5, ...],
         images=[dataset[key][:5, ...] for key in image_keys],
