@@ -7,7 +7,7 @@ Data Page: https://sites.google.com/view/cablerouting/data
 
 #### Clone the repository
 ```shell
-git clone git@github.com:doe-john1234/CableRouting.git
+git clone git@github.com:tan-liam/CableRouting.git
 cd CableRouting
 ```
 
