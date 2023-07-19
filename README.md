@@ -1,7 +1,7 @@
 # CableRouting
-Codebase for the cable routing project at https://sites.google.com/view/cablerouting/home
+Project Homepage: https://sites.google.com/view/cablerouting/home
 
-Find the routing data at https://sites.google.com/view/cablerouting/data
+Data Page: https://sites.google.com/view/cablerouting/data
 
 ## Installation
 
