@@ -13,11 +13,18 @@ cd CableRouting
 
 #### Install and use the included Ananconda environment
 ```shell
-export CONDA_OVERRIDE_CUDA="11.3"
-conda env create -f environment.yml
-conda activate cable
-pip install --no-deps distrax==0.1.2
-pip install --no-deps tensorflow_probability
+conda create -n cable python=3.10
+pip install -r requirements.txt
+
+# CUDA 12 installation
+# Note: wheels only available on linux.
+pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+
+# CUDA 11 installation
+# Note: wheels only available on linux.
+pip install --upgrade "jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+
+pip install pytorch
 ```
 
 #### Edit the following scripts to put your wandb API key into the environment variable `WANDB_API_KEY`
@@ -38,9 +45,9 @@ local_scripts/train_highlevel.sh
 local_scripts/finetune_highlevel.sh
 ```
 
-`pretrain_resnet_embedding.sh` will use the routing data to pretrain the ResNet. Please pass in the routing data path to the `dataset_path` flag. It will output a `model.pkl` file
+`pretrain_resnet_embedding.sh` will use the routing data to pretrain the ResNet. Please pass in the routing transition data path to the `dataset_path` flag. It will output a `model.pkl` file
 
-`train_routing_bc.sh` will train the routing policy. Please pass in the routing data path to the `dataset_path` flag. It will output a `model.pkl` file.
+`train_routing_bc.sh` will train the routing policy. Please pass in the routing transition data path to the `dataset_path` flag. It will output a `model.pkl` file.
 
 `train_highlevel.sh` will train the high level policy. You will need to pass in the trained model from `pretrain_resnet_embedding.sh` to the `encoder_chekpoint_path` flag. Please pass in the high level data to the `dataset_path` flag. This will output multiple `model.pkl` files at different checkpoints.
 
