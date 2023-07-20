@@ -1,7 +1,7 @@
 # CableRouting
-Project Homepage: https://sites.google.com/view/cablerouting/home
+### [Project Homepage](https://sites.google.com/view/cablerouting/home)
 
-Data Page: https://sites.google.com/view/cablerouting/data
+### [Dataset Page](https://sites.google.com/view/cablerouting/data)
 
 ## Installation
 
@@ -33,8 +33,22 @@ pip install pytorch
 * `train_highlevel.sh`
 * `finetune_highlevel.sh`
 
+## Downloading the data
+View [dataset page](https://sites.google.com/view/cablerouting/data) for more detailed format of the data.
 
+### Routing Dataset
+To pretrain the ResNet embedding and train routing policy, download the routing dataset [here](https://rail.eecs.berkeley.edu/datasets/cable_routing/routing_primitive_offline_dataset.zip) into the `data` folder and unzip it. 
 
+Then run `process_route_trajectories.py` to process the trajectory data into a single file containing all the transitions. Set the --trajectory_path to the route_trajectories folder and the output_path to be where you want to output the new .npy file (data folder recommended).
+
+This is the data you'll use to train routing.
+
+The file will be called route_transitions.npy
+ 
+### Primitive Selection Dataset
+To train the highlevel policy, download the preprocessed dataset [here](https://rail.eecs.berkeley.edu/datasets/cable_routing/end_to_end_trajectory_dataset.zip) into the `data` folder. Unzip the file and proceed to the next step. No additional processing is required. 
+
+This is the data you'll use to train the high-level policy.
 
 ## Train the model
 You can train the models with the following scripts.
