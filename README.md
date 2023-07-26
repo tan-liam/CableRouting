@@ -24,7 +24,7 @@ pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-re
 # Note: wheels only available on linux.
 pip install --upgrade "jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
-pip install pytorch
+pip install torch
 ```
 
 #### Edit the following scripts to put your wandb API key into the environment variable `WANDB_API_KEY`
