@@ -14,6 +14,7 @@ cd CableRouting
 #### Install and use the included Ananconda environment
 ```shell
 conda create -n cable python=3.10
+conda activate cable
 pip install -r requirements.txt
 
 # CUDA 12 installation
